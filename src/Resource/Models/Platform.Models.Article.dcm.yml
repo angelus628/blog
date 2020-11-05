@@ -1,0 +1,22 @@
+Article:
+  type: entity
+  id:
+    id:
+      type: integer
+      generator:
+        strategy: AUTO
+  fields:
+    title:
+      type: string
+    content:
+      type: text
+    status:
+      type: integer
+    created_at:
+      type: datetime
+    updated_at:
+      type: datetime
+  manyToOne:
+    author:
+      targetEntity: Author
+      inversedBy: articles

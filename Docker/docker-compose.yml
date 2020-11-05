@@ -1,0 +1,47 @@
+version: "3.8"
+#Nombre
+#Apellidos
+#Email
+#
+services:
+    postgres:
+        image: postgres:alpine
+        volumes:
+            - db-postgres:/var/lib/postgresql/data
+        restart: always
+        container_name: postgres
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_DB: cursophp
+            POSTGRES_PASSWORD: cursophp
+            POSTGRES_USER: cursophp
+
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8080:8080
+
+    php:
+        #image: php:fpm-alpine
+        build:
+            context: ./
+            dockerfile: Dockerfile-php
+        working_dir: /var/www/html
+        container_name: php
+        volumes:
+            - /Users/SysMonitor/development/dvs/blog-php:/var/www/html
+        ports:
+            - 9000:9000
+    nginx: 
+        image: nginx:alpine
+        working_dir: /var/www/html
+        container_name: nginx
+        volumes:
+            - /Users/SysMonitor/development/dvs/blog-php:/var/www/html
+            - /Users/SysMonitor/development/dvs/blog-php/Docker/blog-php.conf:/etc/nginx/conf.d/blog-php.conf
+        ports:
+            - 80:80
+volumes:
+    db-postgres:
